@@ -10,14 +10,12 @@ netsh interface set interface %ADAPTER_NAME% disabled && ( echo >NUL ) || (
     pause
     goto :eof
 )
-REM ===========================================================================
 
 
 REM === wait ==================================================================
 echo wait for %TIMEOUT% seconds
 echo.
 PING localhost -n %TIMEOUT%+1 >NUL
-REM ===========================================================================
 
 
 REM === enable adapter ========================================================
@@ -26,4 +24,3 @@ netsh interface set interface %ADAPTER_NAME% enabled && ( echo >NUL ) || (
     pause
     goto :eof
 )
-REM ===========================================================================
