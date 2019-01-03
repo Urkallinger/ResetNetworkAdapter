@@ -3,24 +3,35 @@
 set ADAPTER_NAME=Wi-Fi
 set TIMEOUT=5
 
-REM === disable adapter =======================================================
-echo disable %ADAPTER_NAME% adapter
 
-netsh interface set interface %ADAPTER_NAME% disabled && ( echo >NUL ) || (
-    pause
-    goto :eof
-)
+REM disable adapter
+call :SetAdapter disabled
+if errorlevel 1 goto :eof
+
+REM wait
+call :Wait %TIMEOUT%
+
+REM enable adapter
+call :SetAdapter enabled
+if errorlevel 1 goto :eof
+
+REM exit batch file
+goto :eof
 
 
-REM === wait ==================================================================
-echo wait for %TIMEOUT% seconds
-echo.
-PING localhost -n %TIMEOUT%+1 >NUL
+REM Sets the given status (enabled, disabled) for the adapter (%ADAPTER_NAME%).
+:SetAdapter
+    echo %1 %ADAPTER_NAME% adapter
 
+    netsh interface set interface %ADAPTER_NAME% %1 && ( echo >NUL ) || (
+        pause
+        exit /b 1
+    )
+    exit /b 0
 
-REM === enable adapter ========================================================
-echo enable %ADAPTER_NAME% adapter
-netsh interface set interface %ADAPTER_NAME% enabled && ( echo >NUL ) || (
-    pause
-    goto :eof
-)
+REM Wait for the given number of seconds
+:Wait
+    echo wait for %1 seconds
+    echo.
+    PING localhost -n %1+1 >NUL
+    exit /b 0
