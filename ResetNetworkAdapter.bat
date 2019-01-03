@@ -21,7 +21,7 @@ goto :eof
 
 REM Sets the given status (enabled, disabled) for the adapter (%ADAPTER_NAME%).
 :SetAdapter
-    echo %1 %ADAPTER_NAME% adapter
+    echo set %ADAPTER_NAME% adapter: %1
 
     netsh interface set interface %ADAPTER_NAME% %1 && ( echo >NUL ) || (
         pause
