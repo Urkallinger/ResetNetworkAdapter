@@ -1,7 +1,7 @@
 @echo off
 
 set ADAPTER_NAME=Wi-Fi
-set TIMEOUT=5
+set TIME_TO_WAIT=5
 
 
 REM disable adapter
@@ -9,7 +9,7 @@ call :SetAdapter disabled
 if errorlevel 1 goto :eof
 
 REM wait
-call :Wait %TIMEOUT%
+call :Wait %TIME_TO_WAIT%
 
 REM enable adapter
 call :SetAdapter enabled
